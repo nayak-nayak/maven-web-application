@@ -30,7 +30,7 @@ finally{
  }
 def notifyBuild(String buildStatus = 'STARTED') {
   // build status of null means successful
-  buildStatus =  buildStatus ?: 'SUCCESSFUL'
+  buildStatus =  buildStatus ?: 'SUCCESS'
 
   // Default values
   def colorName = 'RED'
@@ -52,4 +52,4 @@ def notifyBuild(String buildStatus = 'STARTED') {
   // Send notification
   slackSend (color: colorCode,message: summary)
   
-  }
+  
