@@ -97,13 +97,13 @@
 	    <repository>
 	      <id>nexus</id>
 	      <name>amazon Technologies Releases Nexus Repository</name>
-	      <url>http://3.109.183.122:8081/repository/walmart-release/</url>
+	      <url>http://43.204.22.26:8081/repository/walmart-release/</url>
 	    </repository>
 	    
 	    <snapshotRepository>
 	      <id>nexus</id>
 	      <name>amazon Snapshot Nexus Repository </name>
-	      <url>http://3.109.183.122:8081/repository/walmart-snapshot/</url>
+	      <url>http://43.204.22.26:8081/repository/walmart-snapshot/</url>
 	    </snapshotRepository>
 	    
 	</distributionManagement>
