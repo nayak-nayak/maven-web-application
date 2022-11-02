@@ -1,0 +1,22 @@
+node {
+properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')), pipelineTriggers([pollSCM(ignorePostCommitHooks: true, scmpoll_spec: '* * * * *')])])
+def mavenHome = tool name: "maven3.8.6"
+stage('CheckoutCode'){
+git credentialsId: 'a959c0e9-2f79-4e41-92d7-6985cec4ef70', url: 'https://github.com/cloudtechnoli/maven-web-application.git'
+}
+stage('Build'){
+sh "${mavenHome}/bin/mvn clean package "
+}
+stage('ExcuteSonarQubereport'){
+sh "${mavenHome}/bin/mvn sonar:sonar"
+}
+stage('UploadArtifactintoNexus'){ 
+sh "${mavenHome}/bin/mvn deploy"
+}
+stage('DeployAppintoTomcat'){
+sshagent(['db7e99c0-f2a7-4f1e-b352-c6a7cc045bd5']){
+sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@172.31.42.155:/opt/apache-tomcat-9.0.68/webapps/"
+}
+}
+
+}
