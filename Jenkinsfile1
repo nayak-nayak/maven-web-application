@@ -1,5 +1,5 @@
-try{
 node {
+try {
 properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')), pipelineTriggers([pollSCM(ignorePostCommitHooks: true, scmpoll_spec: '* * * * *')])])
 def mavenHome = tool name: "maven3.8.6"
 stage('CheckoutCode'){
@@ -19,18 +19,18 @@ sshagent(['db7e99c0-f2a7-4f1e-b352-c6a7cc045bd5']){
 sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@172.31.42.155:/opt/apache-tomcat-9.0.68/webapps/"
 }
 }
-}
-}
+}//end try block
+
 catch(e){
 currentBuild.result = "FAILED"
-}
+}//end catch block
 
 finally{
  notifyBuild(currentBuild.result)
- }
+ }//end finally
 def notifyBuild(String buildStatus = 'STARTED') {
   // build status of null means successful
-  buildStatus =  buildStatus ?: 'SUCCESS'
+  buildStatus =  buildStatus ?: 'SUCCESSFUL'
 
   // Default values
   def colorName = 'RED'
@@ -51,5 +51,4 @@ def notifyBuild(String buildStatus = 'STARTED') {
   }
   // Send notification
   slackSend (color: colorCode,message: summary)
-  
-  }
+}
