@@ -1,3 +1,4 @@
+try{
 node {
 properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')), pipelineTriggers([pollSCM(ignorePostCommitHooks: true, scmpoll_spec: '* * * * *')])])
 def mavenHome = tool name: "maven3.8.6"
@@ -18,5 +19,37 @@ sshagent(['db7e99c0-f2a7-4f1e-b352-c6a7cc045bd5']){
 sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@172.31.42.155:/opt/apache-tomcat-9.0.68/webapps/"
 }
 }
-
 }
+}
+catch(e){
+currentBuild.result = "FAILED"
+}
+
+finally{
+ notifyBuild(currentBuild.result)
+ }
+def notifyBuild(String buildStatus = 'STARTED') {
+  // build status of null means successful
+  buildStatus =  buildStatus ?: 'SUCCESSFUL'
+
+  // Default values
+  def colorName = 'RED'
+  def colorCode = '#FF0000'
+  def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+  def summary = "${subject} (${env.BUILD_URL})"
+
+// Override default values based on build status
+  if (buildStatus == 'STARTED') {
+    color = 'YELLOW'
+    colorCode = '#FFFF00'
+  } else if (buildStatus == 'SUCCESSFUL') {
+    color = 'GREEN'
+    colorCode = '#00FF00'
+  } else {
+    color = 'RED'
+    colorCode = '#FF0000'
+  }
+  // Send notification
+  slackSend (color: colorCode,message: summary)
+  
+  }
