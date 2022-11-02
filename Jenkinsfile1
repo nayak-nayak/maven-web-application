@@ -24,11 +24,12 @@ sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@17
 
 catch(e){
 currentBuild.result = "FAILED"
-}//end catch block
+}//end catch block close
 
 finally{
  notifyBuild(currentBuild.result)
- }//end finally
+ }//end finally closing
+ }//node closing
 def notifyBuild(String buildStatus = 'STARTED') {
   // build status of null means successful
   buildStatus =  buildStatus ?: 'SUCCESSFUL'
