@@ -97,13 +97,13 @@
 	    <repository>
 	      <id>nexus</id>
 	      <name> Releases Nexus Repository</name>
-	      <url>http://13.234.66.158:8081/repository/newmavenjob-release/</url>
+	      <url>http://65.1.100.118:8081/repository/new_project_lts_release/</url>
 	    </repository>
 	    
 	    <snapshotRepository>
 	      <id>nexus</id>
 	      <name> Snapshot Nexus Repository </name>
-	      <url>http://13.234.66.158:8081/repository/newmavenjob-snapshot/</url>
+	      <url>hhttp://65.1.100.118:8081/repository/new_project_lts_snapshot/</url>
 	    </snapshotRepository>
 	    
 	</distributionManagement>
